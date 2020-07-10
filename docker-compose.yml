@@ -1,0 +1,40 @@
+version: "3"
+
+volumes:
+  mongo_data: {}
+
+networks:
+  app-network:
+    driver: bridge
+
+services:
+
+  mongo:
+    image: mongo:4.2
+    container_name: rbac_todo_app_mongo_local
+    env_file:
+      - .env
+    command: mongod --storageEngine wiredTiger
+    volumes:
+      - mongo_data:/data/db
+    ports:
+      - "27017:27017"
+    networks:
+      - app-network
+
+  app:
+    restart: on-failure
+    container_name: rbac_todo_app_node_local
+    build:
+      context: ./
+      dockerfile: ./Dockerfile
+    ports:
+      - "8080:8080"
+    env_file:
+      - .env
+    volumes:
+      - ./:/home/app/rbac_todo_app
+    depends_on:
+      - mongo
+    networks:
+      - app-network

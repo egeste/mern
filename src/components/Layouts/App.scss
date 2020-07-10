@@ -1,0 +1,5 @@
+.app-layout {
+  .vh-navbar { height: calc(100vh - 4rem); }
+  .mvh-navbar { min-height: calc(100vh - 4rem);  }
+  .mvh-navbar-footer { min-height: calc(100vh - 12rem);  }
+}
